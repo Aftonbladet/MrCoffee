@@ -11,6 +11,8 @@
         }
         h2 {
             text-align: center;
+            margin:0 0 2em 0;
+            padding-top: 0;
         }
         .top {
             width: 100%;
@@ -18,24 +20,63 @@
         }
         .left, .right {
             float: left;
-            width: 49%;
+            width: 38%;
             height: 30%;
-            border-style: solid;
-            border-width: 1px;
             overflow: hidden;
+            padding: 1em 2em 2em 2em;
+            border: 1px solid #eee;
+            border-radius:8px;
+            margin:2em;
+        }
+        .right {
+            float:right;
+            margin-left:0;
         }
         .buttonContainer {
             overflow: hidden;
             text-align: center;
         }
-        button {
-            width: 20%;
-            font-size: 15pt;
-            color: red;
-
-        }
         p {
-            font-size: 20pt;
+            font-size: 1.2em;
+        }
+        strong {
+            font-weight: bold;
+        }
+        button {
+            width: 80%;
+            display: inline-block;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font: 1.9em/100% Arial, Helvetica, sans-serif;
+            padding: 1em 2em;
+            text-shadow: 0 1px 1px rgba(0,0,0,.3);
+            -webkit-border-radius: .5em;
+            -moz-border-radius: .5em;
+            border-radius: .5em;
+            -webkit-box-shadow: 0 4px 4px rgba(0,0,0,.2);
+            -moz-box-shadow: 0 4px 4px rgba(0,0,0,.2);
+            box-shadow: 0 4px 4px rgba(0,0,0,.2);
+            margin-bottom: .3em;
+            color: #fef4e9;
+            border: solid 1px #da7c0c;
+            background: #f78d1d;
+            background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+            background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+        }
+        button:hover {
+            background: #f47c20;
+            background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+            background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+        }
+        button:active{
+            color: #fcd3a5;
+            background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+            background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+            filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
         }
 
     </style>
@@ -49,16 +90,16 @@
 
     <div class="left">
         <h2>Vänster bryggare</h2>
-        <p id="leftAge"></p>
+        <p>Kaffets ålder: <strong id="leftAge"></strong></p>
         <div class="buttonContainer">
-            <button id="leftButton">Logga bryggning vänster</button>
+            <button id="leftButton">Ny bryggning</button>
         </div>
     </div>
     <div class="right">
         <h2>Höger bryggare</h2>
-        <p id="rightAge"></p>
+        <p>Kaffets ålder: <strong id="rightAge"></strong></p>
         <div class="buttonContainer">
-            <button id="rightButton">Logga bryggning höger</button>
+            <button id="rightButton">Ny bryggning</button>
         </div>
     </div>
 
@@ -80,6 +121,15 @@
                 var minutes = Math.floor(ageSeconds / 60);
                 ageSeconds -= minutes * 60;
                 var seconds = Math.floor(ageSeconds);
+                if (hours<10) {
+                    hours = "0" + hours.toString();
+                }
+                if (seconds<10) {
+                    seconds = "0" + seconds.toString();
+                }
+                if (minutes<10) {
+                    minutes = "0" + minutes.toString();
+                }
                 ageString = hours + ":" + minutes + ":" + seconds;
             }
             return ageString;
@@ -88,11 +138,11 @@
         var update = function () {
             var leftAge = $("#leftAge");
             leftAge.empty();
-            leftAge.append("Kaffets ålder: " + getTimestamp(leftBrewTimestamp));
+            leftAge.append(getTimestamp(leftBrewTimestamp));
 
             var rightAge = $("#rightAge");
             rightAge.empty();
-            rightAge.append("Kaffets ålder: " + getTimestamp(rightBrewTimestamp));
+            rightAge.append(getTimestamp(rightBrewTimestamp));
         };
 
         $(document).ready(function(){
