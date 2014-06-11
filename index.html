@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<head>
+    <title>Aftonbladet Kaffetimer</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        .top {
+            width: 100%;
+            overflow: hidden;
+        }
+        .left, .right {
+            float: left;
+            width: 49%;
+            height: 30%;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+        }
+        .buttonContainer {
+            overflow: hidden;
+            text-align: center;
+        }
+        button {
+            width: 20%;
+            font-size: 15pt;
+            color: red;
+
+        }
+        p {
+            font-size: 20pt;
+        }
+
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="top">
+        <h1>När bryggdes kaffet?</h1>
+    </div>
+
+    <div class="left">
+        <h2>Vänster bryggare</h2>
+        <p id="leftAge"></p>
+        <div class="buttonContainer">
+            <button id="leftButton">Logga bryggning vänster</button>
+        </div>
+    </div>
+    <div class="right">
+        <h2>Höger bryggare</h2>
+        <p id="rightAge"></p>
+        <div class="buttonContainer">
+            <button id="rightButton">Logga bryggning höger</button>
+        </div>
+    </div>
+
+    <script>
+
+        var leftBrewTimestamp;
+        var rightBrewTimestamp;
+
+        var getTimestamp = function(ts) {
+            var ageString;
+            if (!ts) {
+                ageString = "(okänt)"
+            }
+            else {
+                var now = new Date().valueOf();
+                var ageSeconds = (now - ts) / 1000;
+                var hours = Math.floor(ageSeconds / 3600);
+                ageSeconds -= hours * 3600;
+                var minutes = Math.floor(ageSeconds / 60);
+                ageSeconds -= minutes * 60;
+                var seconds = Math.floor(ageSeconds);
+                ageString = hours + ":" + minutes + ":" + seconds;
+            }
+            return ageString;
+        };
+
+        var update = function () {
+            var leftAge = $("#leftAge");
+            leftAge.empty();
+            leftAge.append("Kaffets ålder: " + getTimestamp(leftBrewTimestamp));
+
+            var rightAge = $("#rightAge");
+            rightAge.empty();
+            rightAge.append("Kaffets ålder: " + getTimestamp(rightBrewTimestamp));
+        };
+
+        $(document).ready(function(){
+
+            window.setInterval(update, 1000);
+        });
+
+        $("#leftButton").click(function() {
+            leftBrewTimestamp = new Date().valueOf();
+            update();
+        });
+        $("#rightButton").click(function() {
+            rightBrewTimestamp = new Date().valueOf();
+            update();
+        });
+    </script>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
