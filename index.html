@@ -78,6 +78,14 @@
             background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
             filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
         }
+        .message {
+            width:90%;
+            margin: 0 auto;
+            font-size:3em;
+        }
+        .hidden {
+            display: none;
+            }
 
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -102,11 +110,21 @@
             <button id="rightButton">Ny bryggning</button>
         </div>
     </div>
+    <div class="message hidden">
+        Tack för att du bryggde rara du! Ha en fin dag! :)
+    </div>
 
     <script>
 
         var leftBrewTimestamp;
         var rightBrewTimestamp;
+
+        var messages = [];
+        messages[0] = "Tack för bryggningen, puss och kram!";
+        messages[1] = "TACK! Nu kommer alla bli på bättre humör inom kort :)";
+        messages[2] = "Tack för att du bryggde rara du, ha en fin dag! :)";
+        messages[3] = "Assååååååå. TACK FÖR BRYGGNINGEN!!!";
+        messages[4] = "WOHOOOOOOOOO! ÄNTLIGEN blir det kaffe! TACK!!! :)";
 
         var getTimestamp = function(ts) {
             var ageString;
@@ -144,6 +162,13 @@
             rightAge.empty();
             rightAge.append(getTimestamp(rightBrewTimestamp));
         };
+        var showMessage = function () {
+            $(".message").html(messages[Math.ceil(Math.random()*messages.length)-1]);
+            $(".message").show("slow");
+            setTimeout(function () {
+                $(".message").hide("slow");
+            }, 4000);
+        }
 
         $(document).ready(function(){
 
@@ -153,10 +178,12 @@
         $("#leftButton").click(function() {
             leftBrewTimestamp = new Date().valueOf();
             update();
+            showMessage();
         });
         $("#rightButton").click(function() {
             rightBrewTimestamp = new Date().valueOf();
             update();
+            showMessage();
         });
     </script>
 
